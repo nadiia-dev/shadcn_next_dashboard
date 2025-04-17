@@ -19,6 +19,7 @@ import {
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
 import { TooltipContent } from "@radix-ui/react-tooltip";
 import TeamDistributionChart from "./team-distribution-chart";
+import SupportTicketsChart from "./support-tickets-chart";
 
 const teamLeaders = [
   {
@@ -128,7 +129,7 @@ const TeamsStats = () => {
               <PieChartIcon />
             </CardTitle>
           </CardHeader>
-          <CardContent className="flex gap-2 items-center">
+          <CardContent className="pb-0">
             <TeamDistributionChart />
           </CardContent>
         </Card>
@@ -140,7 +141,9 @@ const TeamsStats = () => {
             <span>Support tickets resolved</span>
           </CardTitle>
         </CardHeader>
-        <CardContent className="pl-0"></CardContent>
+        <CardContent className="pl-0">
+          <SupportTicketsChart />
+        </CardContent>
       </Card>
     </>
   );
