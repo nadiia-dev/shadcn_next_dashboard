@@ -1,3 +1,7 @@
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { DataTable } from "@/components/ui/data-table";
+import { columns } from "./columns";
+
 export type Employee = {
   id: number;
   firstName: string;
@@ -78,7 +82,16 @@ const Page = async () => {
     },
   ];
 
-  return <div>Employees</div>;
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Employees</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <DataTable columns={columns} data={employees} />
+      </CardContent>
+    </Card>
+  );
 };
 
 export default Page;
