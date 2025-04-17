@@ -18,6 +18,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import { Popover } from "@/components/ui/popover";
 import { Select, SelectContent, SelectValue } from "@/components/ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -240,11 +241,7 @@ const Page = () => {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="••••••••"
-                        type="password"
-                        {...field}
-                      />
+                      <PasswordInput placeholder="••••••••" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -257,11 +254,7 @@ const Page = () => {
                   <FormItem>
                     <FormLabel>Password Confirm</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="••••••••"
-                        type="password"
-                        {...field}
-                      />
+                      <PasswordInput placeholder="••••••••" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
