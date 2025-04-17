@@ -1,10 +1,60 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Avatar } from "@radix-ui/react-avatar";
-import { ListChecksIcon, UsersIcon } from "lucide-react";
+import { ListChecksIcon, StarIcon, UsersIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import cm from "@/public/cm.jpg";
+import tf from "@/public/tf.jpg";
+import rl from "@/public/rl.jpg";
+import {
+  Tooltip,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
+import { TooltipContent } from "@radix-ui/react-tooltip";
+
+const teamLeaders = [
+  {
+    firstName: "Colin",
+    lastName: "Murray",
+    avatar: cm,
+  },
+  {
+    firstName: "Tom",
+    lastName: "Phillips",
+  },
+  {
+    firstName: "Liam",
+    lastName: "Fuentes",
+  },
+  {
+    firstName: "Tina",
+    lastName: "Fey",
+    avatar: tf,
+  },
+  {
+    firstName: "Katie",
+    lastName: "Johnson",
+  },
+  {
+    firstName: "Tina",
+    lastName: "Jones",
+  },
+  {
+    firstName: "Amy",
+    lastName: "Adams",
+  },
+  {
+    firstName: "Ryan",
+    lastName: "Lopez",
+    avatar: rl,
+  },
+  {
+    firstName: "Jenny",
+    lastName: "Jones",
+  },
+];
 
 const TeamsStats = () => {
   const totalTeams = 8;
@@ -30,10 +80,39 @@ const TeamsStats = () => {
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-base">Team leaders</CardTitle>
+            <CardTitle className="text-base flex justify-between">
+              <span>Team leaders</span>
+              <StarIcon className="text-yellow-500" />
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="flex gap-2"></div>
+            <div className="flex gap-2 flex-wrap">
+              {teamLeaders.map((leader) => (
+                <TooltipProvider key={`${leader.firstName}${leader.lastName}`}>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Avatar>
+                        {!!leader.avatar ? (
+                          <Image
+                            src={leader.avatar}
+                            alt={`${leader.firstName} ${leader.lastName} avatar`}
+                            className="rounded-full w-10 h-10 flex items-center justify-center text-xs font-medium"
+                          />
+                        ) : (
+                          <AvatarFallback className="rounded-full w-10 h-10 flex items-center justify-center text-xs font-medium bg-muted">
+                            {leader.firstName[0]}
+                            {leader.lastName[0]}
+                          </AvatarFallback>
+                        )}
+                      </Avatar>
+                    </TooltipTrigger>
+                    <TooltipContent className="bg-muted rounded-sm p-1 text-xs mb-1">
+                      {leader.firstName} {leader.lastName}
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              ))}
+            </div>
           </CardContent>
         </Card>
         <Card className="flex flex-col">
