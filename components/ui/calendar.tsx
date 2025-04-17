@@ -105,7 +105,6 @@ function Calendar({
             currentMonth,
             dropdownProps.name === "months" ? "MMM" : "yyyy"
           );
-          console.log({ selectValues });
           return (
             <Select
               onValueChange={(newVal) => {

@@ -45,8 +45,22 @@ const formSchema = z
       );
       return date <= startDate;
     }, "You must be at least 18 years old"),
+    password: z
+      .string()
+      .min(8, "Password must be at least 8 characters long")
+      .refine((password) => {
+        return /^(?=.*[!@#$%^&*])(?=.*[A-Z]).*$/.test(password);
+      }, "Password must contain at least 1 special character and 1 uppercase letter"),
+    passwordConfirm: z.string(),
   })
   .superRefine((data, ctx) => {
+    if (data.passwordConfirm !== data.password) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["passwordConfirm"],
+        message: "Passwords do not match",
+      });
+    }
     if (data.accountType === "company" && !data.companyName) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
@@ -215,6 +229,40 @@ const Page = () => {
                         />
                       </PopoverContent>
                     </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="••••••••"
+                        type="password"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="passwordConfirm"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password Confirm</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="••••••••"
+                        type="password"
+                        {...field}
+                      />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
