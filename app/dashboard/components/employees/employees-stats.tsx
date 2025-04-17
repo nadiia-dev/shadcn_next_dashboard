@@ -6,17 +6,19 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
 import {
   AlertTriangleIcon,
   BadgeCheckIcon,
   LaptopIcon,
   PartyPopperIcon,
   UserCheck2Icon,
-  UserCheckIcon,
   UserIcon,
   UserRoundXIcon,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
+import cm from "@/public/cm.jpg";
 
 const EmployeesStats = () => {
   const totalEmployees = 100;
@@ -67,9 +69,23 @@ const EmployeesStats = () => {
           </CardFooter>
         </Card>
         <Card className="border-pink-500 flex flex-col">
-          <CardHeader className="pb-2">
+          <CardHeader>
             <CardTitle className="text-base">Employee of the month</CardTitle>
           </CardHeader>
+          <CardContent className="flex gap-2 items-center">
+            <Avatar>
+              <Image
+                src={cm}
+                alt="Employee of the month avatar"
+                className="rounded-full w-10 h-10 flex items-center justify-center text-xs font-medium"
+              />
+            </Avatar>
+            <span className="text-2xl">Colin Murray!</span>
+          </CardContent>
+          <CardFooter className="flex gap-2 items-center text-xs text-muted-foreground mt-auto">
+            <PartyPopperIcon className="text-pink-500" />
+            <span>Congratulations, Colin!</span>
+          </CardFooter>
         </Card>
       </div>
     </>
