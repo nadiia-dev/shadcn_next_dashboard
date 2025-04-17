@@ -9,9 +9,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -27,6 +29,7 @@ import { SelectItem, SelectTrigger } from "@radix-ui/react-select";
 import { format } from "date-fns";
 import { CalendarIcon, PersonStandingIcon } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -53,6 +56,11 @@ const formSchema = z
         return /^(?=.*[!@#$%^&*])(?=.*[A-Z]).*$/.test(password);
       }, "Password must contain at least 1 special character and 1 uppercase letter"),
     passwordConfirm: z.string(),
+    acceptTerms: z
+      .boolean({
+        required_error: "You must accept the terms and conditions",
+      })
+      .refine((checked) => checked, "You must accept the terms and conditions"),
   })
   .superRefine((data, ctx) => {
     if (data.passwordConfirm !== data.password) {
@@ -83,6 +91,7 @@ const formSchema = z
   });
 
 const Page = () => {
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -99,6 +108,7 @@ const Page = () => {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
+    router.push("/dashboard");
   }
   return (
     <>
@@ -260,6 +270,35 @@ const Page = () => {
                   </FormItem>
                 )}
               />
+              <FormField
+                control={form.control}
+                name="acceptTerms"
+                render={({ field }) => (
+                  <FormItem>
+                    <div className="flex gap-2 items-center">
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormLabel>I accept the terms and conditions</FormLabel>
+                    </div>
+                    <FormDescription>
+                      By signing up you agree to our{" "}
+                      <Link
+                        href="/terms"
+                        className="text-primary hover:underline"
+                      >
+                        {" "}
+                        terms and conditions
+                      </Link>
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
               <Button type="submit">Sign up</Button>
             </form>
           </Form>
