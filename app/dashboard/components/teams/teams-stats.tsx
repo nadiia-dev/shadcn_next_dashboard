@@ -1,6 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ListChecksIcon, StarIcon, UsersIcon } from "lucide-react";
+import {
+  ListChecksIcon,
+  PieChartIcon,
+  StarIcon,
+  UsersIcon,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import cm from "@/public/cm.jpg";
@@ -13,6 +18,7 @@ import {
 } from "@/components/ui/tooltip";
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
 import { TooltipContent } from "@radix-ui/react-tooltip";
+import TeamDistributionChart from "./team-distribution-chart";
 
 const teamLeaders = [
   {
@@ -117,9 +123,14 @@ const TeamsStats = () => {
         </Card>
         <Card className="flex flex-col">
           <CardHeader>
-            <CardTitle className="text-base">Team distribution</CardTitle>
+            <CardTitle className="text-base flex justify-between items-center">
+              <span>Team distribution</span>
+              <PieChartIcon />
+            </CardTitle>
           </CardHeader>
-          <CardContent className="flex gap-2 items-center"></CardContent>
+          <CardContent className="flex gap-2 items-center">
+            <TeamDistributionChart />
+          </CardContent>
         </Card>
       </div>
       <Card className="my-4">
