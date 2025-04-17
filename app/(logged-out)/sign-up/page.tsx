@@ -22,10 +22,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { Popover } from "@/components/ui/popover";
-import { Select, SelectContent, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectValue,
+  SelectItem,
+  SelectTrigger,
+} from "@/components/ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
-import { SelectItem, SelectTrigger } from "@radix-ui/react-select";
 import { format } from "date-fns";
 import { CalendarIcon, PersonStandingIcon } from "lucide-react";
 import Link from "next/link";
@@ -96,7 +101,6 @@ const Page = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
-      accountType: "company",
       companyName: "",
       employeesNumber: 1,
     },
@@ -225,7 +229,10 @@ const Page = () => {
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
-                      <PopoverContent align="center" className="w-auto p-0">
+                      <PopoverContent
+                        align="center"
+                        className="w-auto p-0 z-100"
+                      >
                         <Calendar
                           className="bg-[var(--popover)]"
                           mode="single"
