@@ -12,7 +12,7 @@ export type Employee = {
 };
 
 const Page = async () => {
-  await new Promise((res) => setTimeout(res, 3000));
+  // await new Promise((res) => setTimeout(res, 3000));
   const employees: Employee[] = [
     {
       id: 1,
@@ -20,7 +20,7 @@ const Page = async () => {
       lastName: "Murray",
       teamName: "alpha",
       isTeamLeader: true,
-      avatar: "/images/cm.jpg",
+      avatar: "/cm.jpg",
     },
     {
       id: 2,
@@ -42,7 +42,7 @@ const Page = async () => {
       lastName: "Fey",
       teamName: "canary",
       isTeamLeader: true,
-      avatar: "/images/tf.jpg",
+      avatar: "/tf.jpg",
     },
     {
       id: 5,
@@ -71,7 +71,7 @@ const Page = async () => {
       lastName: "Lopez",
       teamName: "delta",
       isTeamLeader: false,
-      avatar: "/images/rl.jpg",
+      avatar: "/rl.jpg",
     },
     {
       id: 9,
