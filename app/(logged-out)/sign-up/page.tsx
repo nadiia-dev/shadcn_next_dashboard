@@ -1,5 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Card,
   CardContent,
@@ -17,10 +18,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Popover } from "@/components/ui/popover";
 import { Select, SelectContent, SelectValue } from "@/components/ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
 import { SelectItem, SelectTrigger } from "@radix-ui/react-select";
-import { PersonStandingIcon } from "lucide-react";
+import { format } from "date-fns";
+import { CalendarIcon, PersonStandingIcon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -32,6 +36,15 @@ const formSchema = z
     accountType: z.enum(["personal", "company"]),
     companyName: z.string().optional(),
     employeesNumber: z.coerce.number().optional(),
+    birthDate: z.date().refine((date) => {
+      const today = new Date();
+      const startDate = new Date(
+        today.getFullYear() - 18,
+        today.getMonth(),
+        today.getDate()
+      );
+      return date <= startDate;
+    }, "You must be at least 18 years old"),
   })
   .superRefine((data, ctx) => {
     if (data.accountType === "company" && !data.companyName) {
@@ -66,6 +79,8 @@ const Page = () => {
   });
 
   const accountType = form.watch("accountType");
+  const fromDate = new Date();
+  fromDate.setFullYear(fromDate.getFullYear() - 120);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
@@ -110,7 +125,10 @@ const Page = () => {
                     <Select onValueChange={field.onChange}>
                       <FormControl>
                         <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Select an account type" />
+                          <SelectValue
+                            placeholder="Select an account type"
+                            {...field}
+                          />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -133,7 +151,7 @@ const Page = () => {
                         <FormControl>
                           <Input
                             placeholder="company name"
-                            type="companyName"
+                            type="text"
                             {...field}
                           />
                         </FormControl>
@@ -150,7 +168,7 @@ const Page = () => {
                         <FormControl>
                           <Input
                             placeholder="number of employees"
-                            type="employeesNumber"
+                            min={0}
                             {...field}
                           />
                         </FormControl>
@@ -160,6 +178,47 @@ const Page = () => {
                   />
                 </>
               )}
+              <FormField
+                control={form.control}
+                name="birthDate"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col pt-2">
+                    <FormLabel>Date of birth</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant="outline"
+                            className="flex justify-between pr-1"
+                          >
+                            {!!field.value ? (
+                              format(field.value, "PPP")
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                            <CalendarIcon />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent align="center" className="w-auto p-0">
+                        <Calendar
+                          className="bg-[var(--popover)]"
+                          mode="single"
+                          defaultMonth={field.value}
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          fixedWeeks
+                          weekStartsOn={1}
+                          fromDate={fromDate}
+                          toDate={new Date()}
+                          captionLayout="dropdown-buttons"
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <Button type="submit">Sign up</Button>
             </form>
           </Form>
