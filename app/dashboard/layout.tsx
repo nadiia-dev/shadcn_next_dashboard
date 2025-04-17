@@ -9,16 +9,24 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { useMediaQuery } from "../hooks/use-media-query";
+import { useState } from "react";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const isDesktop = useMediaQuery("(min-width: 768px)");
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <div className="md:grid md:grid-cols-[250px_1fr] h-screen">
       <MainMenu className="hidden md:flex" />
       {!isDesktop && (
         <div className="p-4 flex justify-between md:hidden sticky top-0 left-0 bg-background border-border border-b">
           <MenuTitle />
-          <Drawer>
+          <Drawer
+            direction="right"
+            open={isOpen}
+            onClose={() => setIsOpen(false)}
+            onOpenChange={(open) => setIsOpen(open)}
+          >
             <DrawerTrigger>
               <MenuIcon />
             </DrawerTrigger>
