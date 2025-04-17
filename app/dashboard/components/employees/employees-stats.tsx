@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
+import { Avatar } from "@radix-ui/react-avatar";
 import {
   AlertTriangleIcon,
   BadgeCheckIcon,
@@ -19,6 +19,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import cm from "@/public/cm.jpg";
+import WorkLocationTrends from "./work-location-trends";
 
 const EmployeesStats = () => {
   const totalEmployees = 100;
@@ -88,6 +89,17 @@ const EmployeesStats = () => {
           </CardFooter>
         </Card>
       </div>
+      <Card className="my-4">
+        <CardHeader>
+          <CardTitle className="text-lg flex items-center gap-2">
+            <LaptopIcon />
+            <span>Employee work location trends</span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="pl-0">
+          <WorkLocationTrends />
+        </CardContent>
+      </Card>
     </>
   );
 };
